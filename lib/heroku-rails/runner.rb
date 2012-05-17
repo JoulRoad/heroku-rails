@@ -13,15 +13,9 @@ module HerokuRails
       # setup heroku username and password so we can start up a heroku client
       credentials_path = File.expand_path("~/.heroku/credentials")
 
+      auth = Heroku::Auth
       # read in the username,password so we can build the client
-      if File.exists?(credentials_path)
-        auth = File.read(credentials_path)
-        username, password = auth.split("\n")
-        @heroku = Heroku::Client.new(username, password)
-      else
-        puts "Heroku not set up. Run `heroku list` in order to input your credentials and try again"
-        exit(1)
-      end
+        @heroku = Heroku::Client.new(auth.user, auth.password)
     end
 
     # add a specific environment to the run list
